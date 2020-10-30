@@ -32,6 +32,7 @@ var DryRun *bool
 var StartTs *float64
 var LeanplumOutFilesPath *string
 var LeanplumAPIEndpoint *string
+var IdentityRegex *string
 
 //var AutoConvert *bool
 
@@ -77,6 +78,8 @@ func Init() bool {
 	Type = flag.String("t", "profile", "The type of data, either profile, event, or both, defaults to profile")
 	Region = flag.String("r", "eu", "The account region, either eu, in, sk, or sg, defaults to eu")
 	DryRun = flag.Bool("dryrun", false, "Do a dry run, process records but do not upload")
+	IdentityRegex = flag.String("identityRegex", "", "The regex for identity")
+	
 	//AutoConvert = flag.Bool("autoConvert", false, "automatically covert property value type to number for number entries")
 	flag.Parse()
 	if (*JSONFilePath == "" && *CSVFilePath == "" && *MixpanelSecret == "" && MPEventsFilePaths == nil && *ImportService == "") || *AccountID == "" || (*AccountPasscode == "" && *ImportService != "leanplumToS3" && *ImportService != "leanplumToS3Throttled") {

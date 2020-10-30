@@ -45,6 +45,14 @@ clevertap-data-upload -csv="/Users/ankit/Documents/in.csv" -id="XXX-XXX-XXXX" -p
 
 NOTE: For CSV uploads, you must include one of identity, objectId, FBID or GPID, in your data.  Email addresses can serve as an identity value, but the key must be identity.
 
+NEW: Added support for regexs to validate identities before sending uploading. Eg, forcing only those profiles which have identities in the +91XXXXXXXXXX format:
+```
+clevertap-data-upload -id="XXX-XXX-XXXX" -p="XXX-XXX-XXXX" -identityRegex="(^[+])91([1-9]){1}([0-9]){9}"
+
+```
+Not including the identityRegex flag will not validate any profile's identity.
+
+
 Example Events upload from Mixpanel:
 ```
 clevertap-data-upload -id="XXX-XXX-XXXX" -p="XXX-XXX-XXXX" -mixpanelSecret="<mp api secret>" -t="event" -startDate="<yyyy-mm-dd>" -endDate="<yyyy-mm-dd>"

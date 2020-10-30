@@ -16,6 +16,8 @@ import (
 	"encoding/csv"
 
 	"github.com/ankit-arora/clevertap-data-upload/globals"
+
+	"regexp"
 )
 
 const (
@@ -104,6 +106,14 @@ func isIdentity(val string) bool {
 	return false
 }
 
+func isIdentityValid (val string, pattern string) bool {
+	if(pattern == "") {
+		return true
+	}
+	re := regexp.MustCompile(pattern)
+	return re.MatchString(val)
+}
+
 func substr(input string, start int, length int) string {
 	asRunes := []rune(input)
 	if start >= len(asRunes) {
@@ -174,6 +184,9 @@ func processCSVUploadLine(vals []string, line string) (interface{}, bool) {
 		if isIdentity(key) {
 			if ep == "" {
 				log.Println("Identity field is missing.")
+				return nil, false
+			} else if !isIdentityValid(ep, *globals.IdentityRegex) {
+				log.Println("Identity field has incorrect format.")
 				return nil, false
 			}
 			record[key] = ep
